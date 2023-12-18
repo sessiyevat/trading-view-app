@@ -19,51 +19,58 @@ struct TradeView: View {
     
     var body: some View {
         NavigationView {
-            VStack(spacing: .zero) {
-                Text(Constants.Text.title)
-                    .font(Fonts.shared.customFont(weight: .bold, size: 22))
-                    .padding(.top, Constants.Layout.textTopPadding)
-                    .foregroundColor(.white)
+            ZStack {
+                Assets.Colors.backgroundSecondary
+                    .ignoresSafeArea()
                 
-                VStack(spacing: Constants.Layout.balanceSpacing) {
-                    Text(Constants.Text.balance)
-                        .font(Fonts.shared.customFont(weight: .medium, size: 12))
-                        .foregroundColor(Assets.Colors.textGraySecondary)
-                        .multilineTextAlignment(.center)
-                    
-                    Text(viewModel.trade.balance.formattedString())
-                        .font(Fonts.shared.customFont(weight: .semiBold, size: 16))
+                VStack(spacing: .zero) {
+                    Text(Constants.Text.title)
+                        .font(Fonts.shared.customFont(weight: .bold, size: 22))
+                        .padding(.top, Constants.Layout.textTopPadding)
                         .foregroundColor(.white)
-                        .multilineTextAlignment(.center)
+                    
+                    VStack(spacing: Constants.Layout.balanceSpacing) {
+                        Text(Constants.Text.balance)
+                            .font(Fonts.shared.customFont(weight: .medium, size: 12))
+                            .foregroundColor(Assets.Colors.textGraySecondary)
+                            .multilineTextAlignment(.center)
+                        
+                        Text(viewModel.trade.balance.formattedString())
+                            .font(Fonts.shared.customFont(weight: .semiBold, size: 16))
+                            .foregroundColor(.white)
+                            .multilineTextAlignment(.center)
+                    }
+                    .frame(height: Constants.Layout.balanceHeight)
+                    .frame(maxWidth: .infinity)
+                    .background(Assets.Colors.graySecondary)
+                    .cornerRadius(12)
+                    .padding(.top, Constants.Layout.balanceTopPadding)
+                    
+                    WebView(url: viewModel.currentURL)
+                        .frame(height: Constants.Layout.webViewHeight)
+                        .foregroundColor(.clear)
+                        .padding(.top, Constants.Layout.webViewTopPadding)
+                    
+                    ControlView(viewModel: viewModel)
+                        .onAppear {
+                            setupKeyboardObservers()
+                        }
+                        .onDisappear {
+                            removeKeyboardObservers()
+                        }
+                    
+                    Spacer()
                 }
-                .frame(height: Constants.Layout.balanceHeight)
-                .frame(maxWidth: .infinity)
-                .background(Assets.Colors.graySecondary)
-                .cornerRadius(12)
-                .padding(.top, Constants.Layout.balanceTopPadding)
-                
-                WebView(url: viewModel.currentURL)
-                    .frame(height: Constants.Layout.webViewHeight)
-                    .foregroundColor(.clear)
-                    .padding(.top, Constants.Layout.webViewTopPadding)
-                
-                ControlView(viewModel: viewModel)
-                    .onAppear {
-                        setupKeyboardObservers()
-                    }
-                    .onDisappear {
-                        removeKeyboardObservers()
-                    }
-                
-                Spacer()
+                .padding(.horizontal, Constants.Layout.horizontalPadding)
+                .padding(.bottom, keyboardHeight)
+                .background(Assets.Colors.backgroundSecondary)
+                .onTapGesture {
+                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                }
             }
-            .padding(.horizontal, Constants.Layout.horizontalPadding)
-            .padding(.bottom, keyboardHeight)
-            .background(Assets.Colors.backgroundSecondary)
-            .onTapGesture {
-                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-            }
+            .navigationBarHidden(true)
         }
+        .navigationBarHidden(true)
     }
     
     private func setupKeyboardObservers() {

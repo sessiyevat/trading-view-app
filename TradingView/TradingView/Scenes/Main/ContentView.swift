@@ -16,7 +16,7 @@ struct ContentView: View {
             WelcomeView(viewModel: viewModel)
                 .background(
                     NavigationLink(
-                        destination: MainView().navigationBarHidden(true),
+                        destination: MainView(),
                         isActive: $viewModel.isPreloadingDone,
                         label: {
                             EmptyView()

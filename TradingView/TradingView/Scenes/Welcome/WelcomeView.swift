@@ -13,6 +13,9 @@ struct WelcomeView: View {
     
     var body: some View {
         ZStack {
+            Assets.Colors.background
+                .ignoresSafeArea()
+            
             RadialGradient(
                 gradient: Gradient(colors: [Assets.Colors.greenPrimary, .clear]),
                 center: .center,
@@ -30,7 +33,6 @@ struct WelcomeView: View {
             )
             .blur(radius:  Constants.Gradient.blurRadius)
             .position(Constants.Gradient.redPosition)
-            
             ProgressBar(
                 width: Constants.ProgressBar.width,
                 height: Constants.ProgressBar.height,
@@ -38,6 +40,7 @@ struct WelcomeView: View {
             )
         }
         .background(Assets.Colors.background)
+        .navigationBarHidden(true)
     }
 }
 
@@ -49,8 +52,8 @@ extension WelcomeView {
             static let startRadius: CGFloat = 15
             static let endRadius: CGFloat = 130
             static let blurRadius: CGFloat = 100
-            static let greenPosition = CGPoint(x: UIScreen.main.bounds.width - 50, y: 220)
-            static let redPosition = CGPoint(x: 50, y: UIScreen.main.bounds.height - 350)
+            static let greenPosition = CGPoint(x: UIScreen.main.bounds.width - 50, y: UIScreen.main.bounds.height * 0.25)
+            static let redPosition = CGPoint(x: 50, y: UIScreen.main.bounds.height * 0.6)
         }
         
         enum ProgressBar {

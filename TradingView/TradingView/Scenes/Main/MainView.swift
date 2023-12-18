@@ -9,30 +9,35 @@ import SwiftUI
 
 struct MainView: View {
     var body: some View {
-            TabView {
-                TradersView()
-                .tabItem {
-                    Assets.Icons.trade
-                        .renderingMode(.template)
-                        .foregroundColor(Assets.Colors.icon)
-                    Text(Constants.Text.trade)
-                }
-               
-                TradeView()
-                .tabItem {
-                    Assets.Icons.top
-                        .renderingMode(.template)
-                        .foregroundColor(Assets.Colors.icon)
-                    Text(Constants.Text.top)
-                }
-           }
-           .accentColor(Assets.Colors.greenPrimary)
-           .onAppear {
+        TabView {
+            TradersView()
+            .tabItem {
+                Assets.Icons.trade
+                    .renderingMode(.template)
+                    .foregroundColor(Assets.Colors.icon)
+                Text(Constants.Text.trade)
+            }
+           
+            TradeView()
+            .tabItem {
+                Assets.Icons.top
+                    .renderingMode(.template)
+                    .foregroundColor(Assets.Colors.icon)
+                Text(Constants.Text.top)
+            }
+       }
+       .accentColor(Assets.Colors.greenPrimary)
+       .onAppear {
+           if #available(iOS 15.0, *) {
                let appearance = UITabBarAppearance()
                appearance.shadowColor = Constants.Color.shadow
                appearance.backgroundColor = Constants.Color.tabBar
                UITabBar.appearance().scrollEdgeAppearance = appearance
+           } else {
+               UITabBar.appearance().barTintColor = Constants.Color.tabBar
            }
+       }
+       .navigationBarHidden(true)
     }
 }
 

@@ -139,7 +139,7 @@ struct ControlView: View {
                             timerText = newValue.formatTimer()
                             viewModel.timerValue = newValue.parseSeconds()
                         }
-                        .fontWeight(.bold)
+                        .font(.system(size: 16, weight: .bold))
                         .foregroundColor(.white)
                         .padding(.horizontal, Constants.Layout.textFieldPadding)
                         .multilineTextAlignment(.center)
@@ -155,7 +155,7 @@ struct ControlView: View {
                                 investmentText = newValue
                                 viewModel.investmentValue = Int(newValue) ?? 0
                             }
-                            .fontWeight(.bold)
+                            .font(.system(size: 16, weight: .bold))
                             .foregroundColor(.white)
                             .padding(.horizontal, Constants.Layout.textFieldPadding)
                             .multilineTextAlignment(.center)

@@ -17,39 +17,44 @@ struct CurrencyListView: View {
     ]
     
     var body: some View {
-        VStack(spacing: .zero) {
-            NavigationBarView(
-                leftBarItem: CustomBackButton(icon: 
-                    Assets.Icons.leftArrow
+        ZStack {
+            Assets.Colors.backgroundSecondary
+                .ignoresSafeArea()
+            
+            VStack(spacing: .zero) {
+                NavigationBarView(
+                    leftBarItem: CustomBackButton(icon:
+                                                    Assets.Icons.leftArrow
                         .foregroundColor(.white)
                         .imageScale(.large)
-                ),
-                title:
-                    Text(Constants.Text.title)
+                                                 ),
+                    title:
+                        Text(Constants.Text.title)
                         .font(Fonts.shared.customFont(weight: .bold, size: 22))
                         .foregroundColor(.white)
-            )
-            
-            LazyVGrid(columns: columns, alignment: .center, spacing: Constants.Layout.spacing) {
-                ForEach(viewModel.currencyPairs, id: \.self) { currencyPair in
-                    Button(action: {
-                        viewModel.setCurrentCurrencyPair(currencyPair)
-                        viewModel.toggleChart()
-                    }) {
-                        Text("\(currencyPair.first)/\(currencyPair.second)")
-                            .frame(width: Constants.Layout.width, height: Constants.Layout.height)
-                            .background(currencyPair == viewModel.currentCurrencyPair ? Assets.Colors.greenPrimary : Assets.Colors.graySecondary)
-                            .foregroundColor(.white)
-                            .cornerRadius(Constants.Layout.cornerRadius)
+                )
+                
+                LazyVGrid(columns: columns, alignment: .center, spacing: Constants.Layout.spacing) {
+                    ForEach(viewModel.currencyPairs, id: \.self) { currencyPair in
+                        Button(action: {
+                            viewModel.setCurrentCurrencyPair(currencyPair)
+                            viewModel.toggleChart()
+                        }) {
+                            Text("\(currencyPair.first)/\(currencyPair.second)")
+                                .frame(width: Constants.Layout.width, height: Constants.Layout.height)
+                                .background(currencyPair == viewModel.currentCurrencyPair ? Assets.Colors.greenPrimary : Assets.Colors.graySecondary)
+                                .foregroundColor(.white)
+                                .cornerRadius(Constants.Layout.cornerRadius)
+                        }
                     }
                 }
+                .padding(.top, Constants.Layout.gridTopPadding)
+                
+                Spacer()
             }
-            .padding(.top, Constants.Layout.gridTopPadding)
-            
-            Spacer()
+            .background(Assets.Colors.backgroundSecondary)
+            .navigationBarHidden(true)
         }
-        .background(Assets.Colors.backgroundSecondary)
-        .navigationBarHidden(true)
     }
 }
 

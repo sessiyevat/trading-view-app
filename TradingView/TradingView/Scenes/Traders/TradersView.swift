@@ -16,20 +16,34 @@ struct TradersView: View {
     }
 
     var body: some View {
-        VStack(spacing: .zero) {
-            Text(Constants.Text.title)
-                .font(Fonts.shared.customFont(weight: .bold, size: 22))
-                .padding(.top, Constants.Layout.textTopPadding)
-                .frame(maxWidth: .infinity)
-                .foregroundColor(.white)
+        ZStack {
+            Assets.Colors.background
+                .ignoresSafeArea()
             
-            tradersList
-                .background(.clear)
-                .scrollContentBackground(.hidden)
-        }
-        .background(Assets.Colors.background)
-        .onAppear {
-            viewModel.startFetchingData()
+            VStack(spacing: .zero) {
+                Text(Constants.Text.title)
+                    .font(Fonts.shared.customFont(weight: .bold, size: 22))
+                    .padding(.top, Constants.Layout.textTopPadding)
+                    .frame(maxWidth: .infinity)
+                    .foregroundColor(.white)
+                
+                if #available(iOS 16.0, *) {
+                    tradersList
+                        .background(.clear)
+                        .scrollContentBackground(.hidden)
+                } else {
+                    tradersList
+                        .listStyle(.insetGrouped)
+                        .background(Assets.Colors.background.ignoresSafeArea())
+                        .onAppear {
+                            UITableView.appearance().backgroundColor = .clear
+                        }
+                }
+            }
+            .background(Assets.Colors.background)
+            .onAppear {
+                viewModel.startFetchingData()
+            }
         }
     }
 
